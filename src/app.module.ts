@@ -5,8 +5,9 @@ import { PrismaService } from './prisma/prisma.service';
 import { PrismaModule } from './prisma/prisma.module';
 import { ProfileModule } from './profile/profile.module';
 import { ConfigModule } from '@nestjs/config';
+import { MenusModule } from './menus/menus.module';
 
 @Module({
-  imports: [ConfigModule.forRoot(),PrismaModule, AuthModule, UsersModule, ProfileModule],
+  imports: [ConfigModule.forRoot(),PrismaModule, AuthModule, UsersModule, ProfileModule, MenusModule],
 })
 export class AppModule {}

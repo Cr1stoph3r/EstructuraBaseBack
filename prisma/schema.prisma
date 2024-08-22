@@ -49,3 +49,19 @@ model UserProfiles {
 
   @@index([userId])
 }
+
+model Menu {
+  id         Int       @id @unique @default(autoincrement())
+  title      String
+  icon       String?
+  order      Int?
+  target     String? // Target será null cuando sea una categoría
+  isCategory Boolean   @default(false) // Define si es categoría
+  idCategory Int? // Referencia a la categoría padre
+  level      Int? // Nivel de la categoría (0 = nivel superior)
+  parent     Menu?     @relation("MenuToMenu", fields: [idCategory], references: [id])
+  children   Menu[]    @relation("MenuToMenu")
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  deletedAt  DateTime?
+}

@@ -22,40 +22,51 @@ export class AuthService {
 
   async generateJwt(user: User) {
     const payload = { userId: user.id, email: user.email };
-    
+
     const token = this.jwtService.sign(payload);
-    return token ;
+    return token;
   }
 
   async validateUser(login: LoginAuthDto): Promise<Response> {
-    console.log('entra',login);
     const userDb = await this.prisma.user.findFirst({
       where: {
-        OR: [
-          { email: login.user },
-          { user: login.user },
-        ],
+        OR: [{ email: login.user }, { user: login.user }],
       },
     });
 
     if (!userDb) {
-      return { FlgOk: 0, message: 'Usuario o contraseña incorrecta', data: null };
-    } 
+      return {
+        FlgOk: 0,
+        message: 'Usuario o contraseña incorrecta',
+        data: null,
+      };
+    }
 
-    const isPasswordValid = await bcrypt.compare(login.password, userDb.password);
+    const isPasswordValid = await bcrypt.compare(
+      login.password,
+      userDb.password,
+    );
     if (!isPasswordValid) {
-      return { FlgOk: 0, message: 'Usuario o contraseña incorrecta', data: null };
+      return {
+        FlgOk: 0,
+        message: 'Usuario o contraseña incorrecta',
+        data: null,
+      };
     }
 
     const token = await this.generateJwt(userDb);
 
-    return { FlgOk: 1, message: 'Usuario logueado correctamente', data: { user: {...userDb, password: null}, token } };
+    return {
+      FlgOk: 1,
+      message: 'Usuario logueado correctamente',
+      data: { user: { ...userDb, password: null }, token },
+    };
   }
 
-  async register(registerDto: RegisterAuthDto) : Promise<Response> {
+  async register(registerDto: RegisterAuthDto): Promise<Response> {
     try {
       const hashedPassword = await this.hashPassword(registerDto.password);
-  
+
       const userExist = await this.prisma.user.findFirst({
         where: {
           OR: [
@@ -65,7 +76,7 @@ export class AuthService {
           ],
         },
       });
-      
+
       if (userExist) {
         let message = 'El campo';
         if (userExist.email === registerDto.email) {
@@ -78,7 +89,7 @@ export class AuthService {
         message += ' ya existe';
         return { FlgOk: 0, message, data: null };
       }
-    
+
       const result = await this.prisma.$transaction(async (prisma) => {
         try {
           const user = await prisma.user.create({
@@ -93,20 +104,27 @@ export class AuthService {
                 create: registerDto.profiles.map((profile) => ({
                   profileId: profile,
                 })),
-              }
+              },
             },
           });
 
-          return { FlgOk: 1, data: { ...user, rolesId: registerDto.profiles }, message: 'Usuario creado correctamente' };
+          return {
+            FlgOk: 1,
+            data: { ...user, rolesId: registerDto.profiles },
+            message: 'Usuario creado correctamente',
+          };
         } catch (error) {
-          return { FlgOk: 0, message: 'Error en la creacion de usuario', data: null };
+          return {
+            FlgOk: 0,
+            message: 'Error en la creacion de usuario',
+            data: null,
+          };
         }
       });
 
-      return result;      
+      return result;
     } catch (error) {
-      return {FlgOk: 0, message: error.message, data: null};
+      return { FlgOk: 0, message: error.message, data: null };
     }
   }
-
 }

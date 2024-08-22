@@ -12,11 +12,15 @@ import * as path from 'path';
   imports: [
     PassportModule,
     JwtModule.register({
-      privateKey: fs.readFileSync(path.resolve(__dirname, '../../keys/private.pem')),
-      publicKey: fs.readFileSync(path.resolve(__dirname, '../../keys/public.pem')),
+      privateKey: fs.readFileSync(
+        path.resolve(__dirname, '../../keys/private.pem'),
+      ),
+      publicKey: fs.readFileSync(
+        path.resolve(__dirname, '../../keys/public.pem'),
+      ),
       signOptions: {
         algorithm: 'RS256',
-        expiresIn: '180m',
+        expiresIn: '1m',
       },
     }),
     PrismaModule,
