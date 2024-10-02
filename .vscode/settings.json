@@ -1,4 +1,5 @@
-{
+{ 
+    "material-icon-theme.activeIconPack": "nest",
     "workbench.colorCustomizations": {
       "editorRuler.foreground": "#ffffff",
       "activityBar.background": "#ce6e01",
