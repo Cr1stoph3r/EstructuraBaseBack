@@ -1,3 +1,13 @@
-{
-    "material-icon-theme.activeIconPack": "nest"
-}
+{ 
+    "material-icon-theme.activeIconPack": "nest",
+    "workbench.colorCustomizations": {
+      "editorRuler.foreground": "#ffffff",
+      "activityBar.background": "#ce6e01",
+      "activityBar.foreground": "#ffffff",
+      "titleBar.activeBackground": "#ce6e01",
+      "titleBar.activeForeground": "#ffffff",
+      "statusBar.background": "#ce6e01",
+      "statusBar.foreground": "#ffffff",
+      
+    }
+  }

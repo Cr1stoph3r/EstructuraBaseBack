@@ -8,6 +8,6 @@ import { ConfigModule } from '@nestjs/config';
 import { MenusModule } from './menus/menus.module';
 
 @Module({
-  imports: [ConfigModule.forRoot(),PrismaModule, AuthModule, UsersModule, ProfileModule, MenusModule],
+  imports: [ConfigModule.forRoot({isGlobal:true}),PrismaModule, AuthModule, UsersModule, ProfileModule, MenusModule],
 })
 export class AppModule {}
