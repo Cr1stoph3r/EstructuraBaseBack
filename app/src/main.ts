@@ -7,7 +7,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   const configService = app.get(ConfigService);
-  const CORS_URL = configService.get<string>('CORS_URL') || 'http://localhost:3000';
+  const CORS_URL = configService.get<string>('CORS_URL') || 'http://localhost:5173';
 
   app.useGlobalPipes(new ValidationPipe({
     whitelist: true
