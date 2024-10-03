@@ -10,7 +10,7 @@ async function bootstrap() {
   }));
 
   app.enableCors({
-    origin: 'http://localhost:5173'
+    origin: 'http://192.168.1.87:3000'
   });
 
   await app.listen(3000);
